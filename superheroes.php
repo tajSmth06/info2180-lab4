@@ -62,11 +62,48 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
-
 ?>
+<?php 
+echo "<h2>RESULT<h2>";
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+if(!isset($_GET['query'])){
+    echo "<ul>";
+    foreach($superheroes as $superhero){
+        echo "<li>". $superhero['alias']. "</li>";
+    }
+    echo "</ul>";
+} else {
+
+    $query = trim($_GET['query']);
+    $sanitized_query = htmlspecialchars($query, ENT_QUOTES, 'UTF-8');
+
+    //if searchbox empty returns list
+    if ($sanitized_query === '') {
+        echo "<ul>";
+    foreach($superheroes as $superhero){
+        echo "<li>". $superhero['alias']. "</li>";
+        
+    }
+    echo "</ul>";
+    }
+   
+    else{
+    $found = false;
+    foreach ($superheroes as $superhero) {
+         if (strcasecmp($superhero['name'], $sanitized_query) === 0 || strcasecmp($superhero['alias'], $sanitized_query) === 0) {
+                $found = $superhero;
+                break;
+            }
+        }
+
+    if ($found) {
+        echo "<h3>" . $found['alias'] . "</h3>";
+        echo "<h4>" . $found['name'] . "</h4>";
+        echo "<p>" . $found['biography'] . "</p>";
+        } 
+    else{
+        echo '<p class="not-found"> SUPERHERO NOT FOUND</p>';
+        }
+    }
+}
+?>
