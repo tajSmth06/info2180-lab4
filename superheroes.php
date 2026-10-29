@@ -64,7 +64,7 @@ $superheroes = [
 ];
 ?>
 <?php 
-echo "<h2>RESULT<h2>";
+echo "<h2>RESULT<h2/>";
 
 if(!isset($_GET['query'])){
     echo "<ul>";
